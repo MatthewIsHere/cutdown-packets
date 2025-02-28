@@ -3,8 +3,18 @@
 
 #define CALLSIGN_FIELD_LEN 10
 
-RadioPacket::RadioPacket(const char* callsign, PacketType type, PacketFlags flags)
-    : callsign_(callsign), type_(type), flags_(flags) {}
+RadioPacket::RadioPacket(const char *callsign, PacketType type, SystemTimestamp timestamp)
+    : callsign_(callsign), type_(type)
+{
+    if (timestamp.format == TimeFormat::HostRelativeTime) {
+        this->flags_ |= PacketFlags::RELATIVE_TIME;
+    }
+    timestamp_ = timestamp.time;
+};
+
+bool RadioPacket::hasFlag(PacketFlags flag) const {
+    return (flags_ & flag) == flag;
+}
 
 size_t RadioPacket::serialize(uint8_t *buffer, size_t buflen) const {
     if (buflen < CALLSIGN_FIELD_LEN + 1 + 1 + sizeof(time_t)) {
@@ -31,4 +41,18 @@ PacketType RadioPacket::parse_type(const uint8_t *buffer, size_t buflen) {
         type = static_cast<PacketType>(type_byte);
     }
     return type;
+}
+
+
+// Overload bitwise operators to allow combining flags
+inline PacketFlags operator|(PacketFlags a, PacketFlags b) {
+    return static_cast<PacketFlags>(static_cast<uint8_t>(a) | static_cast<uint8_t>(b));
+}
+
+inline PacketFlags& operator|=(PacketFlags& a, PacketFlags b) {
+    return a = a | b;
+}
+
+inline PacketFlags operator&(PacketFlags a, PacketFlags b) {
+    return static_cast<PacketFlags>(static_cast<uint8_t>(a) & static_cast<uint8_t>(b));
 }
