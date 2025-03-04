@@ -36,8 +36,8 @@ message TelemetryPacket {
     // Pressure (scaled int32)
     int32 pressure = 3;     // 1013.25 * 1,000,000 = 1013250000
 
-    // GPS data (could be optional)
-    GPSData gps_data = 4;
+    // GPS data. Not always present because the GPS takes time to fix.
+    optional GPSData gps_data = 4;
 
     bool relay_1 = 5;
     bool relay_2 = 6;
@@ -56,9 +56,9 @@ message GPSData {
     // Altitude (scaled to int32 with 6 decimal places)
     int32 altitude = 3;     // 30.5 * 1,000,000 = 30500000
 
-    // GPS fix quality (scaled to uint8_t, e.g., 0 = no fix, 1 = 2D fix, 2 = 3D fix)
-    uint32 fix_quality = 4;   // 0 = no fix, 1 = 2D fix, 2 = 3D fix (use uint8_t)
+    // GPS fix quality
+    uint32 fix_quality = 4;
 
-    // Number of satellites (scaled to uint8_t, e.g., 0-255 satellites)
-    uint32 num_satellites = 5; // 0-255 (assuming max 255 satellites)
+    // Number of satellites
+    uint32 num_satellites = 5;
 }
