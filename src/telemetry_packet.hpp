@@ -6,8 +6,7 @@
 #include "radio_packet.hpp"
 #include "data_types.hpp"
 
-class TelemetryPacket : RadioPacket
-{
+class TelemetryPacket : public RadioPacket {
 public:
     TelemetryPacket(
         const char *callsign,
@@ -15,9 +14,16 @@ public:
         struct MS8607Data *sensors,
         struct GPSData *gps,
         uint8_t relays);
+    TelemetryPacket(const uint8_t *buffer, size_t buflen);
 
     size_t serialize(uint8_t *buffer, size_t buflen) const override;
-    // static std::unique_ptr<RadioPacket> deserialize(const uint8_t *buffer, size_t buflen);
+
+    struct MS8607Data* getSensors() {
+        return sensors_;
+    }
+    struct GPSData* getGPS() {
+        return gps_;
+    }
 
 private:
     struct MS8607Data *sensors_;

@@ -13,6 +13,13 @@ TelemetryPacket::TelemetryPacket(
       gps_(std::move(gps)),
       relays_(relays) {}
 
+TelemetryPacket::TelemetryPacket(const uint8_t *buffer, size_t buflen): RadioPacket(buffer, buflen) {
+    size_t offset = this->data_offset_;
+    this->relays_ = buffer[offset++];
+    this->sensors_ = (struct MS8607Data*) (buffer + offset); offset += sizeof(struct MS8607Data);
+    this->gps_ = (struct GPSData*) (buffer + offset); offset += sizeof(struct GPSData);
+}
+
 size_t TelemetryPacket::serialize(uint8_t *buffer, size_t buflen) const {
     size_t preamble_offset = RadioPacket::serialize(buffer, buflen);
     if (preamble_offset == 0) return 0;

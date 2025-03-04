@@ -8,6 +8,8 @@
 
 #include "timestamp.hpp"
 
+#define CALLSIGN_FIELD_LEN 10
+
 enum class PacketType : uint8_t {
     UNKNOWN = 0,
     TELEMETRY,
@@ -24,12 +26,12 @@ enum class PacketFlags : uint8_t {
 
 class RadioPacket {
 public:
-    RadioPacket(const char *callsign, PacketType type, SystemTimestamp timestamp);
+    RadioPacket(char callsign[CALLSIGN_FIELD_LEN], PacketType type, SystemTimestamp timestamp);
+    RadioPacket(const uint8_t *buffer, size_t buflen);
 
     // to convert into a binary representation and back
     virtual size_t serialize(uint8_t *buffer, size_t buffer_size) const;
     static PacketType parse_type(const uint8_t *buffer, size_t buflen);
-    // static std::unique_ptr<RadioPacket> deserialize(const uint8_t *buffer, size_t buflen);
 
     bool hasFlag(PacketFlags flag) const;
 
@@ -37,10 +39,11 @@ public:
     virtual ~RadioPacket() = default;
 
 protected:
-    const char *callsign_;
+    char callsign_[CALLSIGN_FIELD_LEN];
     PacketType type_;
     PacketFlags flags_;
     time_t timestamp_;
+    size_t data_offset_;
 };
 
 #endif // RADIO_PACKET_HPP
