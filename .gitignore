@@ -3,3 +3,6 @@ build/
 target/
 generated/
 .env
+*.pb.h
+*.pb.c
+*.pb.cc
