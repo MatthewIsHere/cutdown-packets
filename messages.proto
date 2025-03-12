@@ -12,8 +12,8 @@ enum PacketFlags {
 
 // Enum to define command types for CommandPacket
 enum Command {
-    SET_NICHROME,
-    SET_MOTOR,
+    SET_NICHROME;
+    SET_MOTOR;
     ADJUST_TRANSMIT_POWER
     // more here
 }
