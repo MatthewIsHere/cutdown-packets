@@ -10,6 +10,14 @@ enum PacketFlags {
     TEST_PACKET = 2;     // Set if the packet is using testing data and is not in production mode.
 }
 
+// Enum to define command types for CommandPacket
+enum Command {
+    SET_NICHROME,
+    SET_MOTOR,
+    ADJUST_TRANSMIT_POWER
+    // more here
+}
+
 
 // Define the base packet
 message BasePacket {
@@ -20,7 +28,8 @@ message BasePacket {
 
     // Inner packet can vary based on packet type
     oneof packet_data {
-        TelemetryPacket telemetry_data = 5;
+        TelemetryPacket telemetry_packet = 5;
+        CommandPacket command_packet = 6;
         // Other packet types can go here (e.g., CommandPacket, ExecutedPacket)
     }
 }
@@ -43,6 +52,16 @@ message TelemetryPacket {
     bool relay_2 = 6;
     bool relay_3 = 7;
     bool relay_4 = 8;
+}
+
+message CommandPacket {
+    Command command = 1;
+
+    oneof command_data {
+        bool boolean_data = 2;
+        string string_data = 3;
+        uint32 int_data = 4;
+    }
 }
 
 // GPS data message
