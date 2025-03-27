@@ -12,9 +12,11 @@ enum PacketFlags {
 
 // Enum to define command types for CommandPacket
 enum Command {
-    SET_NICHROME;
-    SET_MOTOR;
-    ADJUST_TRANSMIT_POWER
+    SET_NICHROME = 0;
+    SET_MOTOR = 1;
+    ADJUST_TRANSMIT_POWER = 2;
+    CUTDOWN_PARACHUTE = 3;
+    CUTDOWN_BALLOON = 4;
     // more here
 }
 
@@ -30,7 +32,7 @@ message BasePacket {
     oneof packet_data {
         TelemetryPacket telemetry_packet = 5;
         CommandPacket command_packet = 6;
-        // Other packet types can go here (e.g., CommandPacket, ExecutedPacket)
+        // Other packet types can go here (e.g. ExecutedPacket)
     }
 }
 
