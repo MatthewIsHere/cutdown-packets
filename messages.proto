@@ -25,7 +25,7 @@ enum Command {
 // Define the base packet
 message BasePacket {
     string callsign = 1;  // Fixed callsign (9 characters max)
-    int64 timestamp = 2;  // Timestamp, e.g., Unix time (int64)
+    uint64 timestamp = 2;  // Timestamp, e.g., Unix time (int64)
     PacketFlags flags = 3;     // Uses PacketFlag enum to represent bitflags
     uint32 nonce_id = 4;  // Nonce ID (idempotency/logging), now uint32
 
