@@ -64,7 +64,7 @@ message CommandPacket {
 
     oneof command_data {
         bool boolean_data = 2;
-        string string_data = 3;
+        // string string_data = 3;
         uint32 int_data = 4;
     }
 }
