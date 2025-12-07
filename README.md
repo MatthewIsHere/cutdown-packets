@@ -1,3 +1,6 @@
+# Notice of Archival
+This repository has been archived as this protocol system has been succeded. Please reference [Github/VIP-LES](https://github.com/VIP-LES) for any futher information.
+
 # Cutdown Protobuf Messaging
 
 This repo contains our protobuf files for the Lightning From The Edge of Space research group @ Georgia Institute of Technology.
